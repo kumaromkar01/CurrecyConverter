@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            border: 10px inset blue;
+            display: block;
+            margin: 5vh auto;
+            width: 55vw;
+            height: 50vh;
+            padding: 7px;
+        }
+
+        .amount {
+            display: block;
+            text-align: center;
+            width:50vw;
+            margin: 5vh auto;
+        }
+
+        input {
+            width: 20vw;
+        }
+
+        .list {
+            width: 43vw;
+            padding: 2px;
+            position: relative;
+            left: 5vw;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        button {
+            display: block;
+            min-width: 17vw;
+            background-color: aqua;
+            color: blue;
+            margin: 1.5vh auto;
+        }
+
+        select {
+            width: 15vw;
+        }
+
+        .answer {
+            padding: 2vw;
+            width: fit-content;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <header style="text-align: center; font-family: monospace;">CURRENCY CONVERTER</header>
+        <form action="#">
+            <div class="amount">
+                Amount : <input type="text" value="1">
+            </div>
+            <div class="list">
+                <div class="from">
+                    <p>From</p>
+                    <div class="select-box">
+                        <select>
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                            <option value="JPY">JPY</option>
+                            <option value="INR">INR</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="to">
+                    <p>To</p>
+                    <div class="select-box">
+                        <select> <!-- Options tag are inserted from JavaScript -->
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                            <option value="JPY">JPY</option>
+                            <option value="INR">INR</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="answer">Getting rate ....</div>
+            <button>Convert</button>
+        </form>
+    </div>
+    <script>
+        const fromCurrency = document.querySelector(".from select"),
+            toCurrency = document.querySelector(".to select"),
+            getButton = document.querySelector("form button");
+
+        window.addEventListener("load", () => {
+            getExchangeRate();
+        });
+
+        getButton.addEventListener("click", e => {
+            e.preventDefault();
+            getExchangeRate();
+        });
+
+        function getExchangeRate() {
+            const amount = document.querySelector("form input");
+            const exchangeRateTxt = document.querySelector("form .answer");
+            let amountVal = amount.value;
+            if (amountVal == "" || amountVal == "0") {
+                amount.value = "1";
+                amountVal = 1;
+            }
+            exchangeRateTxt.innerText = "";
+            let url = `https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_JIqEffpKFJiSHDOjOcnbE60oNVQf6Xc0pRkVVYeO`;
+            // fetch(url).then(response => response.json()).then(result => {
+            //     console.log(result);
+            //     let exchangeRate = result.data[toCurrency.value];
+            //     let totalExRate = (amountVal * exchangeRate).toFixed(2);
+            //     exchangeRateTxt.innerText = `${amountVal} ${fromCurrency.value} = ${totalExRate} ${toCurrency.value}`;
+            // }).catch(() => {
+            //     exchangeRateTxt.innerText = "Something went wrong";
+            // });
+        }
+    </script>
+</body>
+
+</html>
